@@ -1,4 +1,4 @@
-// Import MySQL connection.
+// Imports MySQL connection.
 var connection = require("../config/connection.js");
 
 // Helper function for SQL syntax.
@@ -25,18 +25,22 @@ function objToSql(ob) {
   return arr.toString();
 }
 
-// Object for all our SQL statement functions.
+// ORM object for all burger SQL statement functions.
 var orm = {
-  selectAll: function(tableInput, cb) {
+
+  // Gets all burger data for page output.
+  selectAll: function (tableInput, cb) {
     var queryString = "SELECT * FROM " + tableInput + ";";
-    connection.query(queryString, function(err, result) {
+    connection.query(queryString, function (err, result) {
       if (err) {
         throw err;
       }
       cb(result);
     });
   },
-  insertOne: function(table, cols, vals, cb) {
+
+  // Creates new burger data in the burgers_db.
+  insertOne: function (table, cols, vals, cb) {
     var queryString = "INSERT INTO " + table;
 
     queryString += " (";
@@ -48,15 +52,16 @@ var orm = {
 
     console.log(queryString);
 
-    connection.query(queryString, vals, function(err, result) {
+    connection.query(queryString, vals, function (err, result) {
       if (err) {
         throw err;
       }
       cb(result);
     });
   },
-  // An example of objColVals would be {name: panther, sleepy: true}
-  updateOne: function(table, objColVals, condition, cb) {
+
+  // Updates burger as devoured in the burgers_db.
+  updateOne: function (table, objColVals, condition, cb) {
     var queryString = "UPDATE " + table;
 
     queryString += " SET ";
@@ -65,7 +70,7 @@ var orm = {
     queryString += condition;
 
     console.log(queryString);
-    connection.query(queryString, function(err, result) {
+    connection.query(queryString, function (err, result) {
       if (err) {
         throw err;
       }
@@ -75,5 +80,5 @@ var orm = {
   }
 };
 
-// Export the orm object for the model (burger.js).
+// Exports the orm object for the model (burger.js).
 module.exports = orm;
